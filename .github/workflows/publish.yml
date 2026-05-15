@@ -1,0 +1,127 @@
+name: Publish apt repository
+
+on:
+  repository_dispatch:
+    types: [elio-release]
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "elio release tag, for example v1.5.1"
+        required: true
+      deb_url:
+        description: "Optional .deb URL override"
+        required: false
+
+permissions:
+  contents: write
+
+jobs:
+  publish:
+    name: Publish elio apt package
+    runs-on: ubuntu-22.04
+
+    steps:
+      - name: Checkout config
+        uses: actions/checkout@v4
+        with:
+          path: source
+
+      - name: Install apt repository tooling
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y curl gnupg reprepro
+
+      - name: Prepare publish tree
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          repo_url="https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
+
+          if git ls-remote --exit-code --heads "${repo_url}" gh-pages >/dev/null 2>&1; then
+            git clone --depth 1 --branch gh-pages \
+              "${repo_url}" site
+            rm -rf site/.git
+          else
+            mkdir -p site
+          fi
+
+          rm -rf site/conf
+          cp -R source/conf site/conf
+          cp source/install.sh site/install.sh
+          cp source/README.md site/README.md
+          touch site/.nojekyll
+
+      - name: Import signing key
+        env:
+          APT_SIGNING_KEY: ${{ secrets.APT_SIGNING_KEY }}
+          APT_SIGNING_PASSPHRASE: ${{ secrets.APT_SIGNING_PASSPHRASE }}
+        run: |
+          test -n "${APT_SIGNING_KEY}"
+          test -n "${APT_SIGNING_PASSPHRASE}"
+
+          mkdir -p ~/.gnupg
+          chmod 700 ~/.gnupg
+          cat > ~/.gnupg/gpg.conf <<'EOF'
+          batch
+          pinentry-mode loopback
+          EOF
+          cat > ~/.gnupg/gpg-agent.conf <<'EOF'
+          allow-loopback-pinentry
+          default-cache-ttl 3600
+          max-cache-ttl 7200
+          EOF
+          gpgconf --kill gpg-agent || true
+
+          printf '%s\n' "${APT_SIGNING_KEY}" | gpg --batch --import
+          key_id="$(gpg --batch --list-secret-keys --with-colons | awk -F: '/^sec:/ { print $5; exit }')"
+          test -n "${key_id}"
+
+          printf 'elio apt signing test\n' | gpg --batch --yes \
+            --pinentry-mode loopback \
+            --passphrase "${APT_SIGNING_PASSPHRASE}" \
+            --local-user "${key_id}" \
+            --clearsign >/dev/null
+
+          gpg --batch --yes --export "${key_id}" \
+            | gpg --batch --yes --dearmor -o site/elio-archive-keyring.gpg
+
+      - name: Download Debian package
+        env:
+          INPUT_TAG: ${{ github.event.inputs.tag }}
+          PAYLOAD_TAG: ${{ github.event.client_payload.tag }}
+          INPUT_DEB_URL: ${{ github.event.inputs.deb_url }}
+          PAYLOAD_DEB_URL: ${{ github.event.client_payload.deb_url }}
+        run: |
+          tag="${PAYLOAD_TAG:-${INPUT_TAG:-}}"
+          deb_url="${PAYLOAD_DEB_URL:-${INPUT_DEB_URL:-}}"
+
+          if [ -z "${deb_url}" ]; then
+            test -n "${tag}"
+            deb_url="https://github.com/elio-fm/elio/releases/download/${tag}/elio_amd64.deb"
+          fi
+
+          curl -fsSL -o elio_amd64.deb "${deb_url}"
+          dpkg-deb -I elio_amd64.deb
+
+      - name: Update apt repository
+        run: |
+          reprepro --basedir site remove stable elio || true
+          reprepro --basedir site includedeb stable elio_amd64.deb
+
+      - name: Publish gh-pages
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          INPUT_TAG: ${{ github.event.inputs.tag }}
+          PAYLOAD_TAG: ${{ github.event.client_payload.tag }}
+        run: |
+          tag="${PAYLOAD_TAG:-${INPUT_TAG:-manual}}"
+
+          cd site
+          git init
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add .
+          git commit -m "Publish apt repository for ${tag}"
+          git branch -M gh-pages
+          git remote add origin "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
+          git push --force origin gh-pages

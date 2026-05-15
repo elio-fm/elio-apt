@@ -1,0 +1,6 @@
+*.deb
+*.asc
+db/
+dists/
+pool/
+lists/
