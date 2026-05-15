@@ -15,6 +15,10 @@ on:
 permissions:
   contents: write
 
+concurrency:
+  group: publish-apt
+  cancel-in-progress: false
+
 jobs:
   publish:
     name: Publish elio apt package
