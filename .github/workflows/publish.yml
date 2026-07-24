@@ -9,7 +9,10 @@ on:
         description: "elio release tag, for example v1.5.1"
         required: true
       deb_url:
-        description: "Optional .deb URL override"
+        description: "Optional amd64 .deb URL override"
+        required: false
+      arm64_deb_url:
+        description: "Optional arm64 .deb URL override"
         required: false
 
 permissions:
@@ -95,22 +98,39 @@ jobs:
           PAYLOAD_TAG: ${{ github.event.client_payload.tag }}
           INPUT_DEB_URL: ${{ github.event.inputs.deb_url }}
           PAYLOAD_DEB_URL: ${{ github.event.client_payload.deb_url }}
+          INPUT_ARM64_DEB_URL: ${{ github.event.inputs.arm64_deb_url }}
+          PAYLOAD_ARM64_DEB_URL: ${{ github.event.client_payload.arm64_deb_url }}
         run: |
           tag="${PAYLOAD_TAG:-${INPUT_TAG:-}}"
-          deb_url="${PAYLOAD_DEB_URL:-${INPUT_DEB_URL:-}}"
+          amd64_deb_url="${PAYLOAD_DEB_URL:-${INPUT_DEB_URL:-}}"
+          arm64_deb_url="${PAYLOAD_ARM64_DEB_URL:-${INPUT_ARM64_DEB_URL:-}}"
 
-          if [ -z "${deb_url}" ]; then
-            test -n "${tag}"
-            deb_url="https://github.com/elio-fm/elio/releases/download/${tag}/elio_amd64.deb"
+          test -n "${tag}"
+
+          if [ -z "${amd64_deb_url}" ]; then
+            amd64_deb_url="https://github.com/elio-fm/elio/releases/download/${tag}/elio_amd64.deb"
           fi
 
-          curl -fsSL -o elio_amd64.deb "${deb_url}"
-          dpkg-deb -I elio_amd64.deb
+          if [ -z "${arm64_deb_url}" ]; then
+            arm64_deb_url="https://github.com/elio-fm/elio/releases/download/${tag}/elio_arm64.deb"
+          fi
+
+          for arch in amd64 arm64; do
+            case "${arch}" in
+              amd64) deb_url="${amd64_deb_url}" ;;
+              arm64) deb_url="${arm64_deb_url}" ;;
+            esac
+            deb_path="elio_${arch}.deb"
+
+            curl -fsSL -o "${deb_path}" "${deb_url}"
+            dpkg-deb -I "${deb_path}"
+          done
 
       - name: Update apt repository
         run: |
           reprepro --basedir site remove stable elio || true
           reprepro --basedir site includedeb stable elio_amd64.deb
+          reprepro --basedir site includedeb stable elio_arm64.deb
 
       - name: Publish gh-pages
         env:

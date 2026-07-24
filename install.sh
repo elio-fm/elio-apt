@@ -15,6 +15,22 @@ if ! command -v apt-get >/dev/null 2>&1; then
   exit 1
 fi
 
+if ! command -v dpkg >/dev/null 2>&1; then
+  echo "dpkg was not found. This installer is only for Debian-based systems." >&2
+  exit 1
+fi
+
+arch="$(dpkg --print-architecture)"
+case "$arch" in
+  amd64|arm64)
+    ;;
+  *)
+    echo "elio apt repository does not support architecture: ${arch}" >&2
+    echo "Supported architectures: amd64, arm64" >&2
+    exit 1
+    ;;
+esac
+
 download() {
   if command -v curl >/dev/null 2>&1; then
     curl -fsSL "$1" -o "$2"
@@ -33,7 +49,7 @@ install -d -m 0755 /etc/apt/keyrings
 download "${repo_url}/elio-archive-keyring.gpg" "$tmp_key"
 install -m 0644 "$tmp_key" "$keyring"
 
-printf '%s\n' "deb [arch=amd64 signed-by=${keyring}] ${repo_url} stable main" > "$source_list"
+printf '%s\n' "deb [arch=${arch} signed-by=${keyring}] ${repo_url} stable main" > "$source_list"
 apt-get update
 
 echo "elio apt repository configured. Install elio with: sudo apt install elio"

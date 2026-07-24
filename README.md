@@ -19,7 +19,9 @@ sudo install -d -m 0755 /etc/apt/keyrings
 curl -fsSL https://elio-fm.github.io/elio-apt/elio-archive-keyring.gpg \
   | sudo tee /etc/apt/keyrings/elio-archive-keyring.gpg >/dev/null
 
-echo "deb [arch=amd64 signed-by=/etc/apt/keyrings/elio-archive-keyring.gpg] https://elio-fm.github.io/elio-apt stable main" \
+arch="$(dpkg --print-architecture)"
+
+echo "deb [arch=${arch} signed-by=/etc/apt/keyrings/elio-archive-keyring.gpg] https://elio-fm.github.io/elio-apt stable main" \
   | sudo tee /etc/apt/sources.list.d/elio.list
 
 sudo apt update
@@ -28,4 +30,4 @@ sudo apt install elio
 
 ## Supported Packages
 
-This repository publishes `amd64` packages for the `stable` APT distribution.
+This repository publishes `amd64` and `arm64` packages for the `stable` APT distribution.
