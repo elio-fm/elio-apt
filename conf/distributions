@@ -1,0 +1,8 @@
+Origin: elio-fm
+Label: elio
+Suite: stable
+Codename: stable
+Architectures: amd64 arm64
+Components: main
+Description: Official elio apt repository
+SignWith: yes

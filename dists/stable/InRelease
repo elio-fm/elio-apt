@@ -1,0 +1,48 @@
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA512
+
+Origin: elio-fm
+Label: elio
+Suite: stable
+Codename: stable
+Date: Mon, 24 Aug 2026 13:29:53 UTC
+Architectures: amd64 arm64
+Components: main
+Description: Official elio apt repository
+MD5Sum:
+ 85a010771eebd471343adc5bbcc473c8 781 main/binary-amd64/Packages
+ f998cf0668a8473fd67839886f4625e9 491 main/binary-amd64/Packages.gz
+ 33a4f797e8dea5dd82711d9f703c4606 122 main/binary-amd64/Release
+ 0dc4786cf5d7eb8bd6e06e74f4049e30 781 main/binary-arm64/Packages
+ 8b14c0b34d0c1795596e173407c87686 491 main/binary-arm64/Packages.gz
+ ec43f4dd3b170c4ece2a07f4663923d5 122 main/binary-arm64/Release
+SHA1:
+ 5bc8b6bf9a3dabf9d2e1b52593b38251f1778e7d 781 main/binary-amd64/Packages
+ 6a464f96fde98d67bcf81553d155842af4f8efae 491 main/binary-amd64/Packages.gz
+ 0320829091020e178934ae5e8221f4141ff36fb6 122 main/binary-amd64/Release
+ 7fb20a4552275c3641dbd2446a9c450f76826467 781 main/binary-arm64/Packages
+ 5dfd3b376f4c4df553e59a34b34b8604b264dadd 491 main/binary-arm64/Packages.gz
+ ad814b9cbf1306af77dbfd163533a0dc5f39a75f 122 main/binary-arm64/Release
+SHA256:
+ 3d01ccd7c4f9a6a80f821ec0f269805b536ee1f991d947692e94638955c9eeff 781 main/binary-amd64/Packages
+ b22616e51aa0c115b2a578948822f775dd40bc60d775f1a9b3120a1e4af64fce 491 main/binary-amd64/Packages.gz
+ e289a692f4f7ce25d257fbb6c8fc305f8f7470384b952ef2e27758af50163abd 122 main/binary-amd64/Release
+ 781112de28a1f8d28d349b45751cea4dad156fd942f6452b75787f8ae595ec29 781 main/binary-arm64/Packages
+ 22eafa3710dd9956a1f8f406e467cf548f4a8c170f11547854352cabd79106b8 491 main/binary-arm64/Packages.gz
+ ecafb8e228e370e3924e55692949e9e76b7fd113baf54d9c5195411c930c2023 122 main/binary-arm64/Release
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCgAdFiEEjdCbxDK8dbrXJYhrW75h95qOf1cFAmqMR1IACgkQW75h95qO
+f1e7Nw//QEOcHh9AuH8TDv68VHtYQfriSXGYBaIXdgnf0cHlWETK61VtuPDe3NXs
+H09DYEWgh9TNr3MXc2AlCNrIwdOtu5IalpXA5QIcrYqCCayblNYSCKwBc5KhVYGn
+Yds8HA7LKsUiv3wJz8Q/oP0AuQldIFHuuwAOG0ghsWZP54JtdjE9QJs2j3miL0oi
+BhVzMKJrjzfQN8dYikZXsWabKwfvldA7Ya2/YvwaTcK63U+udWcpq6T9TPap3nYw
+/1IJSokuc0GJbvzoLeAVF2jHZm2ULaB89nSRJ7SkyHAGJ4idAh0V3BZd+eP9tX0R
++NTE41xEZHRW5SQrCbUkrxvlryMxxRzCgFd1/0kH9RWqsC+I+KLYU3RPE+pIq2YF
+3cDhJrZsXnSXnz95jcPy2bh7HtYQMUWgIBqGs0UnuhdGH7npYKi9A+QBNe/0NqjN
+J3JZqJjZq8iDX6sbbY8WWld0SAJg4bWFteuzZPfQEWza7g0dVDrfGCyviHK3pjE7
+Da7O1eVdd8s49UuUpj3H5tUCtBi4pLfi/KzEA265I/41helEBxTYgt7IMifxv4y2
+smqGMFsHnR0rSnRYzBvUQ7gUkoTKPCLjse4yxRfWBeWvSVY2dX72Gn80GQc3ppww
+smK/KBX/IYmlOxTSuJwHFk50CE+2Tqb+B5B1cT4VdFURckXe2j4=
+=XoRF
+-----END PGP SIGNATURE-----

@@ -1,0 +1,19 @@
+Package: elio
+Version: 1.12.0-1
+Architecture: arm64
+Homepage: https://github.com/elio-fm/elio
+Maintainer: Miguel Regueiro <67692547+MiguelRegueiro@users.noreply.github.com>
+Installed-Size: 12369
+Depends: desktop-file-utils, hicolor-icon-theme, libc6 (>= 2.34)
+Priority: optional
+Section: utils
+Filename: pool/main/e/elio/elio_1.12.0-1_arm64.deb
+Size: 4648776
+SHA256: ce7730c851356196db82a384904950a7db0e76abc9dae2cb1731787aa297ede6
+SHA1: ee27a8a0de36f6f1fab08a2e1142cfec635eaf3d
+MD5sum: 3bcb0584c5a18f1c006126b03a6081a8
+Description: Snappy, batteries-included terminal file manager with rich previews, inline
+ images, bulk actions, and trash support.
+ elio is a snappy, batteries-included terminal file manager with rich previews,
+ inline images, bulk actions, and trash support.
+
