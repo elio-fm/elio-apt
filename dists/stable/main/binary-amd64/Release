@@ -1,0 +1,6 @@
+Archive: stable
+Component: main
+Origin: elio-fm
+Label: elio
+Architecture: amd64
+Description: Official elio apt repository

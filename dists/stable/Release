@@ -1,0 +1,29 @@
+Origin: elio-fm
+Label: elio
+Suite: stable
+Codename: stable
+Date: Mon, 19 Oct 2026 12:37:10 UTC
+Architectures: amd64 arm64
+Components: main
+Description: Official elio apt repository
+MD5Sum:
+ 108a9bafbcfc2b25fb7320774cef6768 776 main/binary-amd64/Packages
+ 9b7dd46060d97c79292cc7083eba936f 493 main/binary-amd64/Packages.gz
+ 33a4f797e8dea5dd82711d9f703c4606 122 main/binary-amd64/Release
+ c20c8b70d4bdb472fd71e8d867a7b193 776 main/binary-arm64/Packages
+ 0b86debd8e7fe24eccef99f66ca44766 491 main/binary-arm64/Packages.gz
+ ec43f4dd3b170c4ece2a07f4663923d5 122 main/binary-arm64/Release
+SHA1:
+ 8ea4090ed380f22c09ad56fe1bbf67ddcb79e1ab 776 main/binary-amd64/Packages
+ f9fdc88fcf875ca69ebf4e9e8e47caf3148ead1a 493 main/binary-amd64/Packages.gz
+ 0320829091020e178934ae5e8221f4141ff36fb6 122 main/binary-amd64/Release
+ 1202ff5abde1cf8a69ece3db112e0e66ac8902e5 776 main/binary-arm64/Packages
+ 9e59668b76e1ce38cafffd9789d5cced336264fa 491 main/binary-arm64/Packages.gz
+ ad814b9cbf1306af77dbfd163533a0dc5f39a75f 122 main/binary-arm64/Release
+SHA256:
+ 602afe920badef93351aade43141486994532a579ffd6916d4ba69e9682ba854 776 main/binary-amd64/Packages
+ f89808612d05e91fdfed7e2ced761a2ac1afe21603f366ca4c899c3d36ff8fbf 493 main/binary-amd64/Packages.gz
+ e289a692f4f7ce25d257fbb6c8fc305f8f7470384b952ef2e27758af50163abd 122 main/binary-amd64/Release
+ 3338fc73b906d757ab61e23a39828389b4be2a7ac13c0910be4780e4efd03bad 776 main/binary-arm64/Packages
+ 90cfa4ba0b3eced04380660c22af3320350bcedbd5cee5b8f7cd1d6d4e172589 491 main/binary-arm64/Packages.gz
+ ecafb8e228e370e3924e55692949e9e76b7fd113baf54d9c5195411c930c2023 122 main/binary-arm64/Release
